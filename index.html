@@ -3,95 +3,128 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Liszt Sonata – Cues from Excel</title>
+<title>Liszt Sonata – Cues from Spreadsheet</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
   :root { font-family: system-ui, sans-serif; }
   body { margin: 24px; }
-  h1 { margin-bottom: 12px; }
+  h1 { margin: 0 0 12px; }
+  #status { padding: 8px 12px; background:#f1f5f9; border:1px solid #e2e8f0; border-radius:8px; margin: 8px 0 16px; }
   audio { width: 100%; margin-bottom: 16px; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-  th, td { padding: 6px 8px; border: 1px solid #ddd; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  th, td { padding: 6px 8px; border: 1px solid #e5e7eb; }
   td.time a { text-decoration: none; color: #0b5bd3; font-variant-numeric: tabular-nums; }
   td.time a:hover { text-decoration: underline; }
   tr.playing td { background: #fff7ed; }
 </style>
 </head>
 <body>
-  <h1>Liszt Sonata in B minor — cues from <code>liszt.xlsx</code></h1>
+  <h1>Liszt Sonata in B minor — cues from spreadsheet</h1>
+  <div id="status">Loading cues…</div>
   <audio id="player" src="Liszt.mp3" controls preload="metadata"></audio>
-  <table id="cue-table">
+  <table id="cue-table" style="display:none;">
     <thead id="table-head"></thead>
     <tbody id="table-body"></tbody>
   </table>
 
 <script>
-  // helper: format seconds → mm:ss
-  function formatTime(secs) {
-    secs = Math.floor(secs);
-    const m = Math.floor(secs / 60);
-    const s = secs % 60;
-    return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+  const statusBox = document.getElementById('status');
+  const table = document.getElementById('cue-table');
+  const thead = document.getElementById('table-head');
+  const tbody = document.getElementById('table-body');
+
+  function setStatus(msg, isError=false) {
+    statusBox.textContent = msg;
+    statusBox.style.background = isError ? '#fef2f2' : '#f1f5f9';
+    statusBox.style.borderColor = isError ? '#fecaca' : '#e2e8f0';
   }
 
-  // when a timestamp is clicked
+  function formatTime(secs) {
+    secs = Math.floor(Number(secs) || 0);
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+
   function seekTo(anchor) {
     const player = document.getElementById('player');
     const seconds = parseFloat(anchor.dataset.seconds);
-    if (isNaN(seconds)) return false;
-
+    if (Number.isNaN(seconds)) return false;
     document.querySelectorAll('#cue-table tr').forEach(r => r.classList.remove('playing'));
-    anchor.closest('tr').classList.add('playing');
-
-    const doSeek = () => { player.currentTime = seconds; player.play(); };
-    if (player.readyState < 1) {
-      player.addEventListener('loadedmetadata', doSeek, { once: true });
-      player.load();
-    } else {
-      doSeek();
-    }
+    anchor.closest('tr')?.classList.add('playing');
+    const go = () => { player.currentTime = seconds; player.play(); };
+    (player.readyState < 1) ? player.addEventListener('loadedmetadata', go, {once:true}) : go();
     return false;
   }
 
-  // load and parse Excel
-  fetch('liszt.xlsx')
-    .then(res => res.arrayBuffer())
-    .then(data => {
-      const workbook = XLSX.read(data, { type: 'array' });
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // raw 2D array
+  function buildTable(rows) {
+    if (!rows.length) throw new Error('Spreadsheet is empty.');
+    const header = rows[0];
+    const body = rows.slice(1);
 
-      if (rows.length === 0) return;
-      const headerRow = rows[0];
-      const bodyRows = rows.slice(1);
+    // Require seconds in Column A (header[0])
+    if (header.length === 0) header[0] = 'Seconds';
 
-      // build table header
-      const thead = document.getElementById('table-head');
-      let headHtml = '<tr>';
-      headerRow.forEach(h => { headHtml += `<th>${h || ''}</th>`; });
-      headHtml += '</tr>';
-      thead.innerHTML = headHtml;
+    thead.innerHTML = '<tr>' + header.map(h => `<th>${h ?? ''}</th>`).join('') + '</tr>';
+    tbody.innerHTML = '';
 
-      // build table body
-      const tbody = document.getElementById('table-body');
-      tbody.innerHTML = '';
-      bodyRows.forEach(row => {
-        if (row.length === 0) return;
-        const secs = row[0]; // column A in seconds
-        let tr = '<tr>';
+    let rowCount = 0;
+    for (const r of body) {
+      if (!r || r.length === 0) continue;
+      const secs = r[0];
+      if (secs === undefined || secs === '') continue; // skip blank lines
+      const mmss = formatTime(secs);
+      let html = `<tr><td class="time"><a href="#" data-seconds="${secs}" onclick="return seekTo(this)">${mmss}</a></td>`;
+      for (let i = 1; i < r.length; i++) html += `<td>${r[i] ?? ''}</td>`;
+      html += '</tr>';
+      tbody.insertAdjacentHTML('beforeend', html);
+      rowCount++;
+    }
+    if (rowCount === 0) throw new Error('No cue rows found. Ensure Column A has seconds (numbers).');
 
-        // column A → clickable time
-        tr += `<td class="time"><a href="#" data-seconds="${secs}" onclick="return seekTo(this)">${formatTime(secs)}</a></td>`;
+    table.style.display = '';
+    setStatus(`Loaded ${rowCount} cues from ${rows.length-1} data rows.`);
+  }
 
-        // rest of columns
-        for (let i=1; i<row.length; i++) {
-          tr += `<td>${row[i] !== undefined ? row[i] : ''}</td>`;
-        }
-        tr += '</tr>';
-        tbody.innerHTML += tr;
-      });
-    })
-    .catch(err => console.error('Error loading liszt.xlsx:', err));
+  async function tryLoadXLSX(path='liszt.xlsx') {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`${path} not found (HTTP ${res.status}).`);
+    const buf = await res.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array' });
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false });
+    buildTable(rows);
+  }
+
+  async function tryLoadCSV(path='liszt.csv') {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`${path} not found (HTTP ${res.status}).`);
+    const text = await res.text();
+    // Simple CSV parse via SheetJS to keep parity
+    const wb = XLSX.read(text, { type: 'string' });
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false });
+    buildTable(rows);
+  }
+
+  (async function init() {
+    try {
+      // Try XLSX first
+      await tryLoadXLSX('liszt.xlsx');
+    } catch (e1) {
+      console.warn(e1);
+      setStatus('Could not load liszt.xlsx. Trying liszt.csv…');
+      try {
+        await tryLoadCSV('liszt.csv');
+      } catch (e2) {
+        console.error(e2);
+        setStatus(
+          'Could not load cues. Make sure the file is named exactly "liszt.xlsx" (or add "liszt.csv") and is in the same folder as index.html. Column A must contain seconds.',
+          true
+        );
+      }
+    }
+  })();
 </script>
 </body>
 </html>
