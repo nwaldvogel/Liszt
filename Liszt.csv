@@ -1,0 +1,27 @@
+timing,measure,score heading,key,theme,,structure
+0,1,Lento assai,B minor,scales and first outbirst,,EXPOSITION
+76,32,agitato,B minor,first theme,A,
+182,105,grandioso,D major,second theme,B,
+,,,,,,
+300,153,cantando espressivo,D major,lyrical theme,C,
+408,205,Allegro energico,modulatory,virtuosic,A,
+521,297,Pesante,C# minor,recitativos,B,
+,,,,,,
+645,331,Andante sostenuto,F# major,new theme,D,SLOW SECTION
+701,349,Dolcissimo,A major,lyrical theme,C,
+750,363,key signature,F# major,second theme,B,
+905,397,(key signature),F# major,new theme,D,
+904,433,common time,F# major,lyrical theme,C,
+,,,,,,
+981,460,Allegro energico,Bb minor,fugue,A,FUGUE
+1049,509,energico,modulatory,inversions,A,
+,,,,,,
+1083,533,(none),B minor,Recap,A,RECAPITULATION
+1171,600,3:2 time signature,B major,second theme,B,
+1228,616,cantando,B major,lyrical theme,C,
+1302,650,stretto,modulatory,virtuosic,,
+1356,700,3:2 time signature,B major,second theme,B,
+1375,711,Andante sostenuto,B major,new theme,D,
+,,,,,,
+1425,729,Allegro moderato,B major,Coda: to the heavens,,CODA
+1488,750,Lento assai,B major,return to beginning,,
