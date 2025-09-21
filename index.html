@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Liszt Sonata – Clickable Cues</title>
+<title>Liszt Sonata – Clickable Cues (Audio)</title>
 <style>
   :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
   body { margin: 24px; }
   h1 { font-size: 1.25rem; margin: 0 0 12px; }
   .wrap { display: grid; gap: 16px; }
-  video { width: 100%; max-height: 60vh; background: #000; }
+  audio { width: 100%; background: #000; }
   table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
   thead th { text-align: left; background: #f3f4f6; }
   th, td { padding: 8px 10px; border-bottom: 1px solid #ececec; vertical-align: top; }
@@ -18,15 +18,15 @@
   tr.section-break td { padding: 6px 0; border: 0; }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 0.8rem; }
   caption { caption-side: bottom; text-align: left; font-size: 0.85rem; color: #666; padding-top: 8px; }
-  tr.playing td { background: #fff7ed; } /* highlight current row */
+  tr.playing td { background: #fff7ed; }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Liszt Sonata in B minor — “Liszt score.mp4”</h1>
+    <h1>Liszt Sonata in B minor — “Liszt.mp3”</h1>
 
-    <!-- Keep the video file in the same folder as this HTML. If there’s a space in the filename, keep %20. -->
-    <video id="player" src="Liszt%20score.mp4" controls preload="metadata"></video>
+    <!-- Audio player -->
+    <audio id="player" src="Liszt.mp3" controls preload="metadata"></audio>
 
     <table aria-describedby="notes">
       <thead>
@@ -146,13 +146,12 @@
           <td>750</td><td>Lento assai</td><td></td><td>return to beginning</td><td>B major</td><td></td>
         </tr>
       </tbody>
-      <caption id="notes">Click any time in column A to jump the video. Times are mm:ss.</caption>
+      <caption id="notes">Click any time in column A to jump the audio. Times are mm:ss.</caption>
     </table>
   </div>
 
 <script>
   function mmssToSeconds(mmss) {
-    // Accept m:ss or mm:ss (and tolerate h:mm:ss just in case)
     const parts = mmss.trim().split(':').map(Number);
     if (parts.some(Number.isNaN)) return null;
     if (parts.length === 2) return parts[0] * 60 + parts[1];
@@ -170,14 +169,12 @@
     var row = anchor.closest('tr');
     if (row) row.classList.add('playing');
 
-    // Seek & play (handle metadata not yet loaded)
+    // Seek & play
     var doSeek = function () {
       try {
         player.currentTime = t;
         player.play();
-      } catch (e) {
-        console.error(e);
-      }
+      } catch (e) { console.error(e); }
     };
     if (player.readyState < 1) {
       player.addEventListener('loadedmetadata', doSeek, { once: true });
@@ -185,7 +182,7 @@
     } else {
       doSeek();
     }
-    return false; // prevent navigating to "#"
+    return false; // prevent navigation to "#"
   }
 </script>
 </body>
