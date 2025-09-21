@@ -13,13 +13,14 @@
   audio { width: 100%; margin-bottom: 16px; }
   table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
   th, td { padding: 6px 8px; border: 1px solid #e5e7eb; }
-  td.time a { text-decoration: none; color: #0b5bd3; font-variant-numeric: tabular-nums; }
-  td.time a:hover { text-decoration: underline; }
+  td.clickable a { text-decoration: none; color: #0b5bd3; }
+  td.clickable a:hover { text-decoration: underline; }
   tr.playing td { background: #fff7ed; }
+  .hidden { display: none; }
 </style>
 </head>
 <body>
-  <h1>Liszt Sonata in B minor</h1>
+  <h1>Liszt Sonata in B minor — cues from spreadsheet</h1>
   <div id="status">Loading cues…</div>
   <audio id="player" src="Liszt.mp3" controls preload="metadata"></audio>
   <table id="cue-table" style="display:none;">
@@ -39,13 +40,6 @@
     statusBox.style.borderColor = isError ? '#fecaca' : '#e2e8f0';
   }
 
-  function formatTime(secs) {
-    secs = Math.floor(Number(secs) || 0);
-    const m = Math.floor(secs / 60);
-    const s = secs % 60;
-    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  }
-
   function seekTo(anchor) {
     const player = document.getElementById('player');
     const seconds = parseFloat(anchor.dataset.seconds);
@@ -62,31 +56,42 @@
     const header = rows[0];
     const body = rows.slice(1);
 
-    // Require seconds in Column A (header[0])
-    if (header.length === 0) header[0] = 'Seconds';
+    // Build header (hide column A)
+    let headHtml = '<tr>';
+    header.forEach((h, i) => {
+      if (i === 0) {
+        headHtml += `<th class="hidden">${h ?? ''}</th>`;
+      } else {
+        headHtml += `<th>${h ?? ''}</th>`;
+      }
+    });
+    headHtml += '</tr>';
+    thead.innerHTML = headHtml;
 
-    thead.innerHTML = '<tr>' + header.map(h => `<th>${h ?? ''}</th>`).join('') + '</tr>';
     tbody.innerHTML = '';
-
     let rowCount = 0;
     for (const r of body) {
-      if (!r || r.length === 0) continue;
-      const secs = r[0];
-      if (secs === undefined || secs === '') continue; // skip blank lines
-      const mmss = formatTime(secs);
-      let html = `<tr><td class="time"><a href="#" data-seconds="${secs}" onclick="return seekTo(this)">${mmss}</a></td>`;
-      for (let i = 1; i < r.length; i++) html += `<td>${r[i] ?? ''}</td>`;
+      if (!r || r.length < 2) continue;
+      const secs = r[0]; // column A
+      const label = r[1]; // column B
+      if (secs === undefined || secs === '') continue;
+      let html = '<tr>';
+      // hidden col A
+      html += `<td class="hidden">${secs}</td>`;
+      // col B clickable
+      html += `<td class="clickable"><a href="#" data-seconds="${secs}" onclick="return seekTo(this)">${label}</a></td>`;
+      // rest
+      for (let i = 2; i < r.length; i++) html += `<td>${r[i] ?? ''}</td>`;
       html += '</tr>';
       tbody.insertAdjacentHTML('beforeend', html);
       rowCount++;
     }
-    if (rowCount === 0) throw new Error('No cue rows found. Ensure Column A has seconds (numbers).');
-
+    if (rowCount === 0) throw new Error('No cue rows found. Ensure Column A has seconds and Column B has labels.');
     table.style.display = '';
-    setStatus(`Loaded ${rowCount} cues from ${rows.length-1} data rows.`);
+    setStatus(`Loaded ${rowCount} cues.`);
   }
 
-  async function tryLoadXLSX(path='Liszt.xlsx') {
+  async function tryLoadXLSX(path='liszt.xlsx') {
     const res = await fetch(path);
     if (!res.ok) throw new Error(`${path} not found (HTTP ${res.status}).`);
     const buf = await res.arrayBuffer();
@@ -96,33 +101,12 @@
     buildTable(rows);
   }
 
-  async function tryLoadCSV(path='Liszt.csv') {
-    const res = await fetch(path);
-    if (!res.ok) throw new Error(`${path} not found (HTTP ${res.status}).`);
-    const text = await res.text();
-    // Simple CSV parse via SheetJS to keep parity
-    const wb = XLSX.read(text, { type: 'string' });
-    const sheet = wb.Sheets[wb.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false });
-    buildTable(rows);
-  }
-
   (async function init() {
     try {
-      // Try XLSX first
-      await tryLoadXLSX('Liszt.xlsx');
-    } catch (e1) {
-      console.warn(e1);
-      setStatus('Could not load Liszt.xlsx. Trying Liszt.csv…');
-      try {
-        await tryLoadCSV('Liszt.csv');
-      } catch (e2) {
-        console.error(e2);
-        setStatus(
-          'Could not load cues. Make sure the file is named exactly "Liszt.xlsx" (or add "Liszt.csv") and is in the same folder as index.html. Column A must contain seconds.',
-          true
-        );
-      }
+      await tryLoadXLSX('liszt.xlsx');
+    } catch (e) {
+      console.error(e);
+      setStatus('Could not load liszt.xlsx. Make sure it is in the same folder as index.html. Column A = seconds, Column B = label.', true);
     }
   })();
 </script>
