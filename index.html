@@ -86,7 +86,7 @@
     setStatus(`Loaded ${rowCount} cues from ${rows.length-1} data rows.`);
   }
 
-  async function tryLoadXLSX(path='liszt.xlsx') {
+  async function tryLoadXLSX(path='Liszt.xlsx') {
     const res = await fetch(path);
     if (!res.ok) throw new Error(`${path} not found (HTTP ${res.status}).`);
     const buf = await res.arrayBuffer();
@@ -96,7 +96,7 @@
     buildTable(rows);
   }
 
-  async function tryLoadCSV(path='liszt.csv') {
+  async function tryLoadCSV(path='Liszt.csv') {
     const res = await fetch(path);
     if (!res.ok) throw new Error(`${path} not found (HTTP ${res.status}).`);
     const text = await res.text();
@@ -110,16 +110,16 @@
   (async function init() {
     try {
       // Try XLSX first
-      await tryLoadXLSX('liszt.xlsx');
+      await tryLoadXLSX('Liszt.xlsx');
     } catch (e1) {
       console.warn(e1);
-      setStatus('Could not load liszt.xlsx. Trying liszt.csv…');
+      setStatus('Could not load Liszt.xlsx. Trying Liszt.csv…');
       try {
-        await tryLoadCSV('liszt.csv');
+        await tryLoadCSV('Liszt.csv');
       } catch (e2) {
         console.error(e2);
         setStatus(
-          'Could not load cues. Make sure the file is named exactly "liszt.xlsx" (or add "liszt.csv") and is in the same folder as index.html. Column A must contain seconds.',
+          'Could not load cues. Make sure the file is named exactly "Liszt.xlsx" (or add "Liszt.csv") and is in the same folder as index.html. Column A must contain seconds.',
           true
         );
       }
