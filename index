@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Liszt Sonata – Clickable Cues</title>
+<style>
+  :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  body { margin: 24px; }
+  h1 { font-size: 1.25rem; margin: 0 0 12px; }
+  .wrap { display: grid; gap: 16px; }
+  video { width: 100%; max-height: 60vh; background: #000; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  thead th { text-align: left; background: #f3f4f6; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid #ececec; vertical-align: top; }
+  td.time a { text-decoration: none; color: #0b5bd3; font-variant-numeric: tabular-nums; }
+  td.time a:hover { text-decoration: underline; }
+  tr.section-break td { padding: 6px 0; border: 0; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 0.8rem; }
+  caption { caption-side: bottom; text-align: left; font-size: 0.85rem; color: #666; padding-top: 8px; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Liszt Sonata in B minor — “Liszt score.mp4”</h1>
+
+    <!-- If the file sits next to this HTML, the relative src below will work.
+         If the video lives in a subfolder, adjust the path accordingly. -->
+    <video id="player" src="Liszt%20score.mp4" controls preload="metadata"></video>
+
+    <table aria-describedby="notes">
+      <thead>
+        <tr>
+          <th style="width:8ch;">A. Time</th>
+          <th style="width:6ch;">Bars</th>
+          <th>Tempo / Indication</th>
+          <th style="width:4ch;">Sect.</th>
+          <th>Description</th>
+          <th style="width:10ch;">Key</th>
+          <th>Large Section</th>
+        </tr>
+      </thead>
+      <tbody id="cue-table">
+        <!-- EXPOSITION -->
+        <tr>
+          <td class="time"><a href="#" data-mmss="00:00">00:00</a></td>
+          <td>1</td><td>Lento assai</td><td></td><td>scales and first outbirst</td><td>B minor</td><td><span class="badge">EXPOSITION</span></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="16:00">16:00</a></td>
+          <td>32</td><td>agitato</td><td>A</td><td>first theme</td><td>B minor</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="02:00">02:00</a></td>
+          <td>105</td><td>grandioso</td><td>B</td><td>second theme</td><td>D major</td><td></td>
+        </tr>
+
+        <tr class="section-break"><td colspan="7"></td></tr>
+
+        <tr>
+          <td class="time"><a href="#" data-mmss="00:00">00:00</a></td>
+          <td>153</td><td>cantando espressivo</td><td>C</td><td>lyrical theme</td><td>D major</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="47:00">47:00</a></td>
+          <td>205</td><td>Allegro energico</td><td>A</td><td>virtuosic</td><td>modulatory</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="41:00">41:00</a></td>
+          <td>297</td><td>Pesante</td><td>B</td><td>recitativos</td><td>C# minor</td><td></td>
+        </tr>
+
+        <tr class="section-break"><td colspan="7"></td></tr>
+
+        <!-- SLOW MOVEMENT -->
+        <tr>
+          <td class="time"><a href="#" data-mmss="45:00">45:00</a></td>
+          <td>331</td><td>Andante sostenuto</td><td>D</td><td>new theme</td><td>F# major</td><td><span class="badge">SLOW MOVEMENT</span></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="41:00">41:00</a></td>
+          <td>349</td><td>Dolcissimo</td><td>C</td><td>lyrical theme</td><td>A majo
