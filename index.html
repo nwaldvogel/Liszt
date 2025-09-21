@@ -3,187 +3,95 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Liszt Sonata – Clickable Cues (Audio)</title>
+<title>Liszt Sonata – Cues from Excel</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
-  :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  :root { font-family: system-ui, sans-serif; }
   body { margin: 24px; }
-  h1 { font-size: 1.25rem; margin: 0 0 12px; }
-  .wrap { display: grid; gap: 16px; }
-  audio { width: 100%; background: #000; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-  thead th { text-align: left; background: #f3f4f6; }
-  th, td { padding: 8px 10px; border-bottom: 1px solid #ececec; vertical-align: top; }
+  h1 { margin-bottom: 12px; }
+  audio { width: 100%; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { padding: 6px 8px; border: 1px solid #ddd; }
   td.time a { text-decoration: none; color: #0b5bd3; font-variant-numeric: tabular-nums; }
   td.time a:hover { text-decoration: underline; }
-  tr.section-break td { padding: 6px 0; border: 0; }
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 0.8rem; }
-  caption { caption-side: bottom; text-align: left; font-size: 0.85rem; color: #666; padding-top: 8px; }
   tr.playing td { background: #fff7ed; }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Liszt Sonata in B minor — “Liszt.mp3”</h1>
-
-    <!-- Audio player -->
-    <audio id="player" src="Liszt.mp3" controls preload="metadata"></audio>
-
-    <table aria-describedby="notes">
-      <thead>
-        <tr>
-          <th style="width:8ch;">A. Time</th>
-          <th style="width:6ch;">Bars</th>
-          <th>Tempo / Indication</th>
-          <th style="width:4ch;">Sect.</th>
-          <th>Description</th>
-          <th style="width:10ch;">Key</th>
-          <th>Large Section</th>
-        </tr>
-      </thead>
-      <tbody id="cue-table">
-        <!-- EXPOSITION -->
-        <tr>
-          <td class="time"><a href="#" data-mmss="00:00" onclick="return seekTo(this)">00:00</a></td>
-          <td>1</td><td>Lento assai</td><td></td><td>scales and first outbirst</td><td>B minor</td><td><span class="badge">EXPOSITION</span></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="16:00" onclick="return seekTo(this)">16:00</a></td>
-          <td>32</td><td>agitato</td><td>A</td><td>first theme</td><td>B minor</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="02:00" onclick="return seekTo(this)">02:00</a></td>
-          <td>105</td><td>grandioso</td><td>B</td><td>second theme</td><td>D major</td><td></td>
-        </tr>
-
-        <tr class="section-break"><td colspan="7"></td></tr>
-
-        <tr>
-          <td class="time"><a href="#" data-mmss="00:00" onclick="return seekTo(this)">00:00</a></td>
-          <td>153</td><td>cantando espressivo</td><td>C</td><td>lyrical theme</td><td>D major</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="47:00" onclick="return seekTo(this)">47:00</a></td>
-          <td>205</td><td>Allegro energico</td><td>A</td><td>virtuosic</td><td>modulatory</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="41:00" onclick="return seekTo(this)">41:00</a></td>
-          <td>297</td><td>Pesante</td><td>B</td><td>recitativos</td><td>C# minor</td><td></td>
-        </tr>
-
-        <tr class="section-break"><td colspan="7"></td></tr>
-
-        <!-- SLOW MOVEMENT -->
-        <tr>
-          <td class="time"><a href="#" data-mmss="45:00" onclick="return seekTo(this)">45:00</a></td>
-          <td>331</td><td>Andante sostenuto</td><td>D</td><td>new theme</td><td>F# major</td><td><span class="badge">SLOW MOVEMENT</span></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="41:00" onclick="return seekTo(this)">41:00</a></td>
-          <td>349</td><td>Dolcissimo</td><td>C</td><td>lyrical theme</td><td>A major</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="30:00" onclick="return seekTo(this)">30:00</a></td>
-          <td>363</td><td>key signature</td><td>B</td><td>second theme</td><td>F# major</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="37:00" onclick="return seekTo(this)">37:00</a></td>
-          <td>397</td><td>(key signature)</td><td>D</td><td>new theme</td><td>F# major</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="04:00" onclick="return seekTo(this)">04:00</a></td>
-          <td>433</td><td>common time</td><td>C</td><td>lyrical theme</td><td>F# major</td><td></td>
-        </tr>
-
-        <tr class="section-break"><td colspan="7"></td></tr>
-
-        <!-- FUGUE -->
-        <tr>
-          <td class="time"><a href="#" data-mmss="21:00" onclick="return seekTo(this)">21:00</a></td>
-          <td>460</td><td>Allegro energico</td><td>A</td><td>fugue</td><td>B♭ minor</td><td><span class="badge">FUGUE</span></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="29:00" onclick="return seekTo(this)">29:00</a></td>
-          <td>509</td><td>energico</td><td>A</td><td>inversions</td><td>modulatory</td><td></td>
-        </tr>
-
-        <tr class="section-break"><td colspan="7"></td></tr>
-
-        <!-- RECAPITULATION -->
-        <tr>
-          <td class="time"><a href="#" data-mmss="03:00" onclick="return seekTo(this)">03:00</a></td>
-          <td>533</td><td></td><td>A</td><td>Recap</td><td>B minor</td><td><span class="badge">RECAPITULATION</span></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="31:00" onclick="return seekTo(this)">31:00</a></td>
-          <td>600</td><td>3:2</td><td>B</td><td>second theme</td><td>B major</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="27:00" onclick="return seekTo(this)">27:00</a></td>
-          <td>616</td><td>cantando</td><td>C</td><td>lyrical theme</td><td>B major</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="42:00" onclick="return seekTo(this)">42:00</a></td>
-          <td>650</td><td>stretto</td><td></td><td>virtuosic</td><td>modulatory</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="36:00" onclick="return seekTo(this)">36:00</a></td>
-          <td>700</td><td></td><td>B</td><td>second theme</td><td>B major</td><td></td>
-        </tr>
-        <tr>
-          <td class="time"><a href="#" data-mmss="55:00" onclick="return seekTo(this)">55:00</a></td>
-          <td>711</td><td>Andante sostenuto</td><td>D</td><td>new theme</td><td></td><td></td>
-        </tr>
-
-        <tr class="section-break"><td colspan="7"></td></tr>
-
-        <!-- CODA -->
-        <tr>
-          <td class="time"><a href="#" data-mmss="45:00" onclick="return seekTo(this)">45:00</a></td>
-          <td>729</td><td>Allegro moderato</td><td></td><td>Coda: to the heavens</td><td>B major</td><td><span class="badge">CODA</span></td>
-        </tr>
-        <tr>
-          <td class="time"><!-- no time given --></td>
-          <td>750</td><td>Lento assai</td><td></td><td>return to beginning</td><td>B major</td><td></td>
-        </tr>
-      </tbody>
-      <caption id="notes">Click any time in column A to jump the audio. Times are mm:ss.</caption>
-    </table>
-  </div>
+  <h1>Liszt Sonata in B minor — cues from <code>liszt.xlsx</code></h1>
+  <audio id="player" src="Liszt.mp3" controls preload="metadata"></audio>
+  <table id="cue-table">
+    <thead id="table-head"></thead>
+    <tbody id="table-body"></tbody>
+  </table>
 
 <script>
-  function mmssToSeconds(mmss) {
-    const parts = mmss.trim().split(':').map(Number);
-    if (parts.some(Number.isNaN)) return null;
-    if (parts.length === 2) return parts[0] * 60 + parts[1];
-    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-    return null;
+  // helper: format seconds → mm:ss
+  function formatTime(secs) {
+    secs = Math.floor(secs);
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
   }
 
+  // when a timestamp is clicked
   function seekTo(anchor) {
-    var player = document.getElementById('player');
-    var t = mmssToSeconds(anchor.getAttribute('data-mmss'));
-    if (t == null) return false;
+    const player = document.getElementById('player');
+    const seconds = parseFloat(anchor.dataset.seconds);
+    if (isNaN(seconds)) return false;
 
-    // Highlight the row
     document.querySelectorAll('#cue-table tr').forEach(r => r.classList.remove('playing'));
-    var row = anchor.closest('tr');
-    if (row) row.classList.add('playing');
+    anchor.closest('tr').classList.add('playing');
 
-    // Seek & play
-    var doSeek = function () {
-      try {
-        player.currentTime = t;
-        player.play();
-      } catch (e) { console.error(e); }
-    };
+    const doSeek = () => { player.currentTime = seconds; player.play(); };
     if (player.readyState < 1) {
       player.addEventListener('loadedmetadata', doSeek, { once: true });
       player.load();
     } else {
       doSeek();
     }
-    return false; // prevent navigation to "#"
+    return false;
   }
+
+  // load and parse Excel
+  fetch('liszt.xlsx')
+    .then(res => res.arrayBuffer())
+    .then(data => {
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // raw 2D array
+
+      if (rows.length === 0) return;
+      const headerRow = rows[0];
+      const bodyRows = rows.slice(1);
+
+      // build table header
+      const thead = document.getElementById('table-head');
+      let headHtml = '<tr>';
+      headerRow.forEach(h => { headHtml += `<th>${h || ''}</th>`; });
+      headHtml += '</tr>';
+      thead.innerHTML = headHtml;
+
+      // build table body
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+      bodyRows.forEach(row => {
+        if (row.length === 0) return;
+        const secs = row[0]; // column A in seconds
+        let tr = '<tr>';
+
+        // column A → clickable time
+        tr += `<td class="time"><a href="#" data-seconds="${secs}" onclick="return seekTo(this)">${formatTime(secs)}</a></td>`;
+
+        // rest of columns
+        for (let i=1; i<row.length; i++) {
+          tr += `<td>${row[i] !== undefined ? row[i] : ''}</td>`;
+        }
+        tr += '</tr>';
+        tbody.innerHTML += tr;
+      });
+    })
+    .catch(err => console.error('Error loading liszt.xlsx:', err));
 </script>
 </body>
 </html>
