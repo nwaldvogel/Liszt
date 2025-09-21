@@ -18,14 +18,14 @@
   tr.section-break td { padding: 6px 0; border: 0; }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: #eef2ff; color: #3730a3; font-size: 0.8rem; }
   caption { caption-side: bottom; text-align: left; font-size: 0.85rem; color: #666; padding-top: 8px; }
+  tr.playing td { background: #fff7ed; } /* highlight current row */
 </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Liszt Sonata in B minor — “Liszt score.mp4”</h1>
 
-    <!-- If the file sits next to this HTML, the relative src below will work.
-         If the video lives in a subfolder, adjust the path accordingly. -->
+    <!-- Keep the video file in the same folder as this HTML. If there’s a space in the filename, keep %20. -->
     <video id="player" src="Liszt%20score.mp4" controls preload="metadata"></video>
 
     <table aria-describedby="notes">
@@ -43,30 +43,30 @@
       <tbody id="cue-table">
         <!-- EXPOSITION -->
         <tr>
-          <td class="time"><a href="#" data-mmss="00:00">00:00</a></td>
+          <td class="time"><a href="#" data-mmss="00:00" onclick="return seekTo(this)">00:00</a></td>
           <td>1</td><td>Lento assai</td><td></td><td>scales and first outbirst</td><td>B minor</td><td><span class="badge">EXPOSITION</span></td>
         </tr>
         <tr>
-          <td class="time"><a href="#" data-mmss="16:00">16:00</a></td>
+          <td class="time"><a href="#" data-mmss="16:00" onclick="return seekTo(this)">16:00</a></td>
           <td>32</td><td>agitato</td><td>A</td><td>first theme</td><td>B minor</td><td></td>
         </tr>
         <tr>
-          <td class="time"><a href="#" data-mmss="02:00">02:00</a></td>
+          <td class="time"><a href="#" data-mmss="02:00" onclick="return seekTo(this)">02:00</a></td>
           <td>105</td><td>grandioso</td><td>B</td><td>second theme</td><td>D major</td><td></td>
         </tr>
 
         <tr class="section-break"><td colspan="7"></td></tr>
 
         <tr>
-          <td class="time"><a href="#" data-mmss="00:00">00:00</a></td>
+          <td class="time"><a href="#" data-mmss="00:00" onclick="return seekTo(this)">00:00</a></td>
           <td>153</td><td>cantando espressivo</td><td>C</td><td>lyrical theme</td><td>D major</td><td></td>
         </tr>
         <tr>
-          <td class="time"><a href="#" data-mmss="47:00">47:00</a></td>
+          <td class="time"><a href="#" data-mmss="47:00" onclick="return seekTo(this)">47:00</a></td>
           <td>205</td><td>Allegro energico</td><td>A</td><td>virtuosic</td><td>modulatory</td><td></td>
         </tr>
         <tr>
-          <td class="time"><a href="#" data-mmss="41:00">41:00</a></td>
+          <td class="time"><a href="#" data-mmss="41:00" onclick="return seekTo(this)">41:00</a></td>
           <td>297</td><td>Pesante</td><td>B</td><td>recitativos</td><td>C# minor</td><td></td>
         </tr>
 
@@ -74,9 +74,119 @@
 
         <!-- SLOW MOVEMENT -->
         <tr>
-          <td class="time"><a href="#" data-mmss="45:00">45:00</a></td>
+          <td class="time"><a href="#" data-mmss="45:00" onclick="return seekTo(this)">45:00</a></td>
           <td>331</td><td>Andante sostenuto</td><td>D</td><td>new theme</td><td>F# major</td><td><span class="badge">SLOW MOVEMENT</span></td>
         </tr>
         <tr>
-          <td class="time"><a href="#" data-mmss="41:00">41:00</a></td>
-          <td>349</td><td>Dolcissimo</td><td>C</td><td>lyrical theme</td><td>A majo
+          <td class="time"><a href="#" data-mmss="41:00" onclick="return seekTo(this)">41:00</a></td>
+          <td>349</td><td>Dolcissimo</td><td>C</td><td>lyrical theme</td><td>A major</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="30:00" onclick="return seekTo(this)">30:00</a></td>
+          <td>363</td><td>key signature</td><td>B</td><td>second theme</td><td>F# major</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="37:00" onclick="return seekTo(this)">37:00</a></td>
+          <td>397</td><td>(key signature)</td><td>D</td><td>new theme</td><td>F# major</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="04:00" onclick="return seekTo(this)">04:00</a></td>
+          <td>433</td><td>common time</td><td>C</td><td>lyrical theme</td><td>F# major</td><td></td>
+        </tr>
+
+        <tr class="section-break"><td colspan="7"></td></tr>
+
+        <!-- FUGUE -->
+        <tr>
+          <td class="time"><a href="#" data-mmss="21:00" onclick="return seekTo(this)">21:00</a></td>
+          <td>460</td><td>Allegro energico</td><td>A</td><td>fugue</td><td>B♭ minor</td><td><span class="badge">FUGUE</span></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="29:00" onclick="return seekTo(this)">29:00</a></td>
+          <td>509</td><td>energico</td><td>A</td><td>inversions</td><td>modulatory</td><td></td>
+        </tr>
+
+        <tr class="section-break"><td colspan="7"></td></tr>
+
+        <!-- RECAPITULATION -->
+        <tr>
+          <td class="time"><a href="#" data-mmss="03:00" onclick="return seekTo(this)">03:00</a></td>
+          <td>533</td><td></td><td>A</td><td>Recap</td><td>B minor</td><td><span class="badge">RECAPITULATION</span></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="31:00" onclick="return seekTo(this)">31:00</a></td>
+          <td>600</td><td>3:2</td><td>B</td><td>second theme</td><td>B major</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="27:00" onclick="return seekTo(this)">27:00</a></td>
+          <td>616</td><td>cantando</td><td>C</td><td>lyrical theme</td><td>B major</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="42:00" onclick="return seekTo(this)">42:00</a></td>
+          <td>650</td><td>stretto</td><td></td><td>virtuosic</td><td>modulatory</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="36:00" onclick="return seekTo(this)">36:00</a></td>
+          <td>700</td><td></td><td>B</td><td>second theme</td><td>B major</td><td></td>
+        </tr>
+        <tr>
+          <td class="time"><a href="#" data-mmss="55:00" onclick="return seekTo(this)">55:00</a></td>
+          <td>711</td><td>Andante sostenuto</td><td>D</td><td>new theme</td><td></td><td></td>
+        </tr>
+
+        <tr class="section-break"><td colspan="7"></td></tr>
+
+        <!-- CODA -->
+        <tr>
+          <td class="time"><a href="#" data-mmss="45:00" onclick="return seekTo(this)">45:00</a></td>
+          <td>729</td><td>Allegro moderato</td><td></td><td>Coda: to the heavens</td><td>B major</td><td><span class="badge">CODA</span></td>
+        </tr>
+        <tr>
+          <td class="time"><!-- no time given --></td>
+          <td>750</td><td>Lento assai</td><td></td><td>return to beginning</td><td>B major</td><td></td>
+        </tr>
+      </tbody>
+      <caption id="notes">Click any time in column A to jump the video. Times are mm:ss.</caption>
+    </table>
+  </div>
+
+<script>
+  function mmssToSeconds(mmss) {
+    // Accept m:ss or mm:ss (and tolerate h:mm:ss just in case)
+    const parts = mmss.trim().split(':').map(Number);
+    if (parts.some(Number.isNaN)) return null;
+    if (parts.length === 2) return parts[0] * 60 + parts[1];
+    if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+    return null;
+  }
+
+  function seekTo(anchor) {
+    var player = document.getElementById('player');
+    var t = mmssToSeconds(anchor.getAttribute('data-mmss'));
+    if (t == null) return false;
+
+    // Highlight the row
+    document.querySelectorAll('#cue-table tr').forEach(r => r.classList.remove('playing'));
+    var row = anchor.closest('tr');
+    if (row) row.classList.add('playing');
+
+    // Seek & play (handle metadata not yet loaded)
+    var doSeek = function () {
+      try {
+        player.currentTime = t;
+        player.play();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    if (player.readyState < 1) {
+      player.addEventListener('loadedmetadata', doSeek, { once: true });
+      player.load();
+    } else {
+      doSeek();
+    }
+    return false; // prevent navigating to "#"
+  }
+</script>
+</body>
+</html>
