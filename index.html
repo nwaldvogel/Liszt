@@ -91,7 +91,7 @@
     setStatus(`Loaded ${rowCount} cues.`);
   }
 
-  async function tryLoadXLSX(path='liszt.xlsx') {
+  async function tryLoadXLSX(path='Liszt.xlsx') {
     const res = await fetch(path);
     if (!res.ok) throw new Error(`${path} not found (HTTP ${res.status}).`);
     const buf = await res.arrayBuffer();
@@ -103,10 +103,10 @@
 
   (async function init() {
     try {
-      await tryLoadXLSX('liszt.xlsx');
+      await tryLoadXLSX('Liszt.xlsx');
     } catch (e) {
       console.error(e);
-      setStatus('Could not load liszt.xlsx. Make sure it is in the same folder as index.html. Column A = seconds, Column B = label.', true);
+      setStatus('Could not load Liszt.xlsx. Make sure it is in the same folder as index.html. Column A = seconds, Column B = label.', true);
     }
   })();
 </script>
