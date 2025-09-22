@@ -1,27 +1,27 @@
-timing,theme,,score heading,key,structure
-0,scales and first outburst,,Lento assai,B minor,EXPOSITION
-76,first theme (A),A,agitato,B minor,
-182,second theme (B),B,grandioso,D major,
-,,,,,
-300,lyrical theme (C),C,cantando espressivo,D major,
-408,virtuosic (based on A),A,Allegro energico,modulatory,
-521,recitativos (starts with B),B,Pesante,C# minor,
-,,,,,
-645,new theme (D),D,Andante sostenuto,F# major,SLOW SECTION
-701,lyrical theme (C),C,Dolcissimo,A major,
-750,second theme (B),B,key signature,F# major,
-905,new theme (D),D,(key signature),F# major,
-904,lyrical theme (C),C,common time,F# major,
-,,,,,
-981,fugue (based on A),A,Allegro energico,Bb minor,FUGUE
-1049,inversions (A inverted),A,energico,modulatory,
-,,,,,
-1083,Recapitulation (A),A,(none),B minor,RECAPITULATION
-1171,second theme (B),B,3:2 time signature,B major,
-1228,lyrical theme (C),C,cantando,B major,
-1302,virtuosic,,stretto (faster),modulatory,
-1356,second theme (B),B,3:2 time signature,B major,
-1375,new theme (D),D,Andante sostenuto,B major,
-,,,,,
-1425,Coda: to the heavens,,Allegro moderato,B major,CODA
-1488,return to beginning,,Lento assai,B major,
+timing,Theme,Score heading,Key,Structure
+0,scales and first outburst,Lento assai,B minor,EXPOSITION
+76,first theme (A),agitato,B minor,
+182,second theme (B),grandioso,D major,
+,,,,
+300,lyrical theme (C),cantando espressivo,D major,
+408,virtuosic (based on A),Allegro energico,modulatory,
+521,recitativos (starts with B),Pesante,C# minor,
+,,,,
+645,new theme (D),Andante sostenuto,F# major,SLOW SECTION
+701,lyrical theme (C),Dolcissimo,A major,
+750,second theme (B),key signature,F# major,
+905,new theme (D),(key signature),F# major,
+904,lyrical theme (C),common time,F# major,
+,,,,
+981,fugue (based on A),Allegro energico,Bb minor,FUGUE
+1049,inversions (A inverted),energico,modulatory,
+,,,,
+1083,Recapitulation (A),(none),B minor,RECAPITULATION
+1171,second theme (B),3:2 time signature,B major,
+1228,lyrical theme (C),cantando,B major,
+1302,virtuosic,stretto (faster),modulatory,
+1356,second theme (B),3:2 time signature,B major,
+1375,new theme (D),Andante sostenuto,B major,
+,,,,
+1425,Coda: to the heavens,Allegro moderato,B major,CODA
+1488,return to beginning,Lento assai,B major,
