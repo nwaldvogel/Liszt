@@ -22,7 +22,12 @@
 <body>
   <h1>Liszt Sonata in B minor — cues from spreadsheet</h1>
   <div id="status">Loading cues…</div>
-  <audio id="player" src="Liszt.mp3" controls preload="metadata"></audio>
+  <audio id="player" controls preload="metadata">
+  <source src="Liszt.flac" type="audio/flac">
+  <source src="Liszt.m4a" type="audio/mp4">
+  <source src="Liszt.mp3" type="audio/mpeg">
+  Your browser does not support audio playback.
+</audio>
   <table id="cue-table" style="display:none;">
     <thead id="table-head"></thead>
     <tbody id="table-body"></tbody>
